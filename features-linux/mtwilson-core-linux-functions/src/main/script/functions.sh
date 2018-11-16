@@ -95,7 +95,7 @@ generate_password() {
 }
 
 ### FUNCTION LIBRARY: escape out input strings for passing to sed
-# you pass it the string you are about to pass to sed that might 
+# you pass it the string you are about to pass to sed that might
 # contain the following characters ()&#%$+
 # usage examples:
 # new_string=$(sed_escape $string)
@@ -141,7 +141,7 @@ function getUserProfileFile()
     "fedora" )
         file=~/.bash_profile ;;
     "suse" )
-        file=~/.bash_profile ;;    
+        file=~/.bash_profile ;;
     esac
 	#if [ ! -f $file ]; then
 	#   touch $file
@@ -220,23 +220,23 @@ echo_info() {
 
 function validate_path_configuration() {
   local file_path="${1}"
-  
+
   #if [[ "$file_path" == *..* ]]; then
   #  echo_warning "Path specified is not absolute: $file_path"
   #fi
   #file_path=`readlink -f "$file_path"` #make file path absolute
-  
+
   if [ -z "$file_path" ]; then
     echo_failure "Path is missing"
     return 1
   fi
   file_path=`readlink -m "$file_path"` #make file path absolute
-  
+
   if [[ "$file_path" != '/etc/'* && "$file_path" != '/opt/'* && "$file_path" != *'.env' ]]; then
     echo_failure "Configuration path validation failed. Verify path meets acceptable directory constraints: $file_path"
     return 1
   fi
-  
+
   if [ -f "$file_path" ] || [ -d "$file_path" ]; then
     chmod 600 "${file_path}"
   fi
@@ -245,23 +245,23 @@ function validate_path_configuration() {
 
 function validate_path_data() {
   local file_path="${1}"
-  
+
   #if [[ "$file_path" == *..* ]]; then
   #  echo_warning "Path specified is not absolute: $file_path"
   #fi
   #file_path=`readlink -f "$file_path"` #make file path absolute
-  
+
   if [ -z "$file_path" ]; then
     echo_failure "Path is missing"
     return 1
   fi
   file_path=`readlink -m "$file_path"` #make file path absolute
-  
+
   if [[ "$file_path" != '/var/'* && "$file_path" != '/opt/'* ]]; then
     echo_failure "Data path validation failed. Verify path meets acceptable directory constraints: $file_path"
     return 1
   fi
-  
+
   if [ -f "$file_path" ] || [ -d "$file_path" ]; then
     chmod 600 "${file_path}"
   fi
@@ -270,23 +270,23 @@ function validate_path_data() {
 
 function validate_path_executable() {
   local file_path="${1}"
-  
+
   #if [[ "$file_path" == *..* ]]; then
   #  echo_warning "Path specified is not absolute: $file_path"
   #fi
   #file_path=`readlink -f "$file_path"` #make file path absolute
-  
+
   if [ -z "$file_path" ]; then
     echo_failure "Path is missing"
     return 1
   fi
   file_path=`readlink -m "$file_path"` #make file path absolute
-  
+
   if [[ "$file_path" != '/usr/'* && "$file_path" != '/opt/'* ]]; then
     echo_failure "Executable path validation failed. Verify path meets acceptable directory constraints: $file_path"
     return 1
   fi
-  
+
   if [ -f "$file_path" ] || [ -d "$file_path" ]; then
     chmod 755 "${file_path}"
   fi
@@ -327,11 +327,11 @@ find_subdirectories() {
 
 ### FUNCTION LIBRARY: information functions
 
-# Runs its argument and negates the error code: 
+# Runs its argument and negates the error code:
 # If the argument exits with success (0) then this function exits with error (1).
 # If the argument exits with error (1) then this function exits with success (0).
 # Note: only works with arguments that are executable; any additional parameters will be passed.
-# Example:  if not using_java; then echo "Warning: skipping Java"; fi 
+# Example:  if not using_java; then echo "Warning: skipping Java"; fi
 no() { $* ; if [ $? -eq 0 ]; then return 1; else return 0; fi }
 not() { $* ; if [ $? -eq 0 ]; then return 1; else return 0; fi }
 
@@ -376,7 +376,7 @@ is_version_at_least() {
   else
     #echo "no"
     return 1
-  fi  
+  fi
 }
 
 # like is_version_at_least but works on entire java version string 1.7.0_51
@@ -427,7 +427,7 @@ is_java_version_at_least() {
   else
 #    echo "no"
     return 1
-  fi  
+  fi
 }
 
 # Parameters:
@@ -466,7 +466,7 @@ ord() { printf '%d' "'$1"; }
 # Parameters:
 # - variable name to set with result
 # - prompt text (include any punctuation such as ? or : you want to display)
-# - default setting (do not include any brackets or punctuation). 
+# - default setting (do not include any brackets or punctuation).
 #   If the default setting is omitted, the current value of the output variable name will be used.
 # Output:
 # - result (input or default) is saved into the specified variable name
@@ -599,7 +599,7 @@ using_jetty() {
 
 using_mysql() { if [[ "${DATABASE_VENDOR}" == "mysql" ]]; then return 0; else return 1; fi }
 using_postgres() { if [[ "${DATABASE_VENDOR}" == "postgres" ]]; then return 0; else return 1; fi }
- 
+
 ### FUNCTION LIBARRY: conditional execution functions
 
 # parameters: condition variable name, status line, code to run
@@ -773,8 +773,8 @@ update_property_in_file() {
 
 configure_api_baseurl() {
   # setup mtwilson.api.baseurl
-  local config_file="${1:-/etc/intel/cloudsecurity/management-service.properties}" 
-  
+  local config_file="${1:-/etc/intel/cloudsecurity/management-service.properties}"
+
   local input_api_baseurl
   if [ -n "${MTWILSON_API_BASEURL}" ]; then
     mtwilson_api_baseurl="${MTWILSON_API_BASEURL}"
@@ -787,7 +787,7 @@ configure_api_baseurl() {
     else
       input_api_baseurl="$configured_api_baseurl"
     fi
-    
+
     if [[ "$input_api_baseurl" == http* ]]; then
       mtwilson_api_baseurl="$input_api_baseurl"
     else
@@ -865,7 +865,7 @@ is_command_available() {
   which $* > /dev/null 2>&1
   local result=$?
   if [ $result -eq 0 ]; then return 0; else return 1; fi
-}  
+}
 
 trousers_detect() {
   trousers=`which tcsd 2>/dev/null`
@@ -878,7 +878,7 @@ register_startup_script() {
   local absolute_filename="${1}"
   local startup_name="${2}"
   shift; shift;
-  
+
   # try to install it as a startup script
   if [ -d /etc/init.d ]; then
     (
@@ -993,7 +993,7 @@ function disable_tcp_timestamps() {
     # file does not exist so create it
     echo "${property}=${value}" > "${filename}"
   fi
-  
+
   echo 0 > /proc/sys/net/ipv4/tcp_timestamps
 }
 
@@ -1001,16 +1001,16 @@ add_package_repository() {
   local repo_url=${1}
   local distro_release=${2}
   local repo_key_path=${3}
-  
+
   #Repository URL must be specified
   if [ -z "${repo_url}" ]; then
     echo_failure "Add package repository failed. Repository URL not defined."
     return 1
   fi
-  
+
   # detect available package management tools. start with the less likely ones to differentiate.
   yum_detect; yast_detect; zypper_detect; rpm_detect; aptget_detect; dpkg_detect;
-  
+
   if [[ -n "$aptget" ]]; then
     local sources_list_file="/etc/apt/sources.list"
     if [ -z "${distro_release}" ]; then
@@ -1120,7 +1120,7 @@ auto_uninstall() {
 
 # this was used in setup.sh when we installed complete rpm or deb packages via the self-extracting installer.
 # not currently used, but will be used again when we return to rpm and deb package descriptors
-# in conjunction with the self-extracting installer 
+# in conjunction with the self-extracting installer
 my_service_install() {
   auto_install "Application requirements" "APPLICATION"
   if [ $? -ne 0 ]; then echo_failure "Failed to install prerequisites through package installer"; return 1; fi
@@ -1180,7 +1180,7 @@ hostaddress() {
   elif [ -s /etc/ipaddress ]; then
     cat /etc/ipaddress | head -n 1
   else
-    # if you want to exclude certain categories, such as 192.168, add this after the 127.0.0.1 exclusion:  grep -v "^192.168." 
+    # if you want to exclude certain categories, such as 192.168, add this after the 127.0.0.1 exclusion:  grep -v "^192.168."
     local HOSTADDRESS=`hostaddress_list | head -n 1`
     echo "$HOSTADDRESS"
   fi
@@ -1242,7 +1242,7 @@ mysql_write_connection_properties() {
     update_property_in_file ${prefix}.schema "${config_file}" "${MYSQL_DATABASE}"
     update_property_in_file ${prefix}.driver "${config_file}" "com.mysql.jdbc.Driver"
     # if you create a .url property then it takes precedence over the .host, .port, and .schema - so let user do that
-    
+
     # Return the file to encrypted state, if it was before
     if [ encrypted == "true" ]; then
       encrypt_file "$config_file" "$MTWILSON_PASSWORD"
@@ -1417,7 +1417,7 @@ mysql_install() {
 
 # Environment:
 # - MYSQL_REQUIRED_VERSION
-# installs mysql server 
+# installs mysql server
 mysql_server_install() {
   MYSQL_SERVER_YUM_PACKAGES="mysql-server"
   MYSQL_SERVER_APT_PACKAGES="mysql-server"
@@ -1520,7 +1520,7 @@ mysql_install_scripts() {
 
 
 
-mysql_running() {  
+mysql_running() {
   MYSQL_SERVER_RUNNING=''
   if [ -n "$mysqld" ]; then
     local is_running=`$mysqld status | grep running`
@@ -1555,7 +1555,7 @@ mysql_configure_ca() {
   # derive CA settings
   export mysql_ssl_ca_key="${mysql_ssl_ca_dir}/ca.key.pem"
   export mysql_ssl_ca_cert="${mysql_ssl_ca_dir}/ca.cert.pem"
-  export mysql_ssl_ca_index="${mysql_ssl_ca_dir}/index"  
+  export mysql_ssl_ca_index="${mysql_ssl_ca_dir}/index"
 }
 
 mysql_configure_ssl() {
@@ -1688,14 +1688,14 @@ add_postgresql_install_packages() {
   local apt_packages=$(eval "echo \$${cprefix}_APT_PACKAGES")
   local yast_packages=$(eval "echo \$${cprefix}_YAST_PACKAGES")
   local zypper_packages=$(eval "echo \$${cprefix}_ZYPPER_PACKAGES")
-  
+
   local repo_url=
   local distro_release=
   local repo_key_path=
-  
+
   # detect available package management tools. start with the less likely ones to differentiate.
   yum_detect; yast_detect; zypper_detect; rpm_detect; aptget_detect; dpkg_detect;
-  
+
   echo "Checking to see if postgresql package is available for install..."
   if [[ -n "$aptget" && -n "$apt_packages" ]]; then
     pgAddPackRequired=`apt-cache search \`echo $apt_packages | cut -d' ' -f1\``
@@ -1730,7 +1730,7 @@ add_postgresql_install_packages() {
 
 # Environment:
 # - POSTGRES_REQUIRED_VERSION
-# installs postgres server 
+# installs postgres server
 postgres_server_install(){
   POSTGRES_SERVER_YUM_PACKAGES="postgresql93-server pgadmin3_93 postgresql93-contrib"
   POSTGRES_SERVER_APT_PACKAGES="postgresql-9.3 pgadmin3 postgresql-contrib-9.3"
@@ -1748,14 +1748,14 @@ postgres_server_install(){
     if [ $? -ne 0 ]; then echo_failure "Failed to install postgresql server through package installer"; return 1; fi
     postgres_server_detect
   fi
-  
+
   if [[ -z "$postgres_com" ]]; then
     echo_failure "Unable to auto-install postgresql server" | tee -a $INSTALL_LOG_FILE
     echo "Postgresql download URL:"  >> $INSTALL_LOG_FILE
     echo "http://www.postgresql.org/download/" >> $INSTALL_LOG_FILE
     return 1
   fi
-  
+
   flavor=$(getFlavour)
   case $flavor in
     "rhel")
@@ -1784,7 +1784,7 @@ postgres_detect(){
   psql=`which psql 2>/dev/null`
   export psql
   echo "psql=$psql" >> $INSTALL_LOG_FILE
-  
+
   if [ -e "$psql" ]; then
     POSTGRES_HOME=`dirname "$psql"`
     echo "Found postgres client: $psql" >> $INSTALL_LOG_FILE
@@ -1844,22 +1844,25 @@ postgres_server_detect() {
   # now we have selected a postgres version so set variables accordingly
   echo "Best version of PostgreSQL: $best_version" >> $INSTALL_LOG_FILE
   POSTGRES_SERVER_VERSION="$best_version"
-  POSTGRES_SERVER_BIN="$best_version_bin"  
+  POSTGRES_SERVER_BIN="$best_version_bin"
   POSTGRES_SERVER_VERSION_SHORT="$best_version_short"
 
   echo "server version $POSTGRES_SERVER_VERSION" >> $INSTALL_LOG_FILE
   postgresql_installed=$(which psql 2>/dev/null)
   if [ -n "$postgresql_installed" ]; then
-    postgres_com="service postgresql"
+    if yum_detect; then
+      postgres_com="service postgresql-${POSTGRES_SERVER_VERSION_SHORT}"
+    else
+      postgres_com="service postgresql"
   fi
-  
+
   local is_systemd=$($postgres_com status 2>/dev/null | grep -E 'Active:')
   if [ -n "$is_systemd" ]; then
     if service postgresql-${POSTGRES_SERVER_VERSION_SHORT} status >/dev/null 2>&1 -ne 3; then
       postgres_com="service postgresql-${POSTGRES_SERVER_VERSION_SHORT}"
 	fi
   fi
-  
+
   postgres_pghb_conf=$(find / -name pg_hba.conf 2>/dev/null | grep $best_version_short | head -n 1)
   postgres_conf=$(find / -name postgresql.conf 2>/dev/null | grep $best_version_short | head -n 1)
   if [ -z "$postgres_pghb_conf" ]; then postgres_pghb_conf=$(find / -name pg_hba.conf 2>/dev/null | head -n 1); fi
@@ -1933,7 +1936,7 @@ postgres_test_connection() {
     return 0
   fi
   postgres_connection_error=`cat $POSTGRESS_LOG`
-  
+
   #echo "postgres_connection_error: $postgres_connection_error"
   #rm -f /tmp/intel.postgres.err
 
@@ -2002,7 +2005,7 @@ if postgres_server_detect ; then
     has_correct_port=`grep $POSTGRES_PORTNUM $postgres_conf`
     if [ -z "$has_correct_port" ]; then
       echo "Port needs to be reconfigured from $current_port to $POSTGRES_PORTNUM"
-      sed -i s/$current_port/$POSTGRES_PORTNUM/g $postgres_conf 
+      sed -i s/$current_port/$POSTGRES_PORTNUM/g $postgres_conf
       echo "Restarting PostgreSQL for port change update to take effect."
       postgres_restart >> $INSTALL_LOG_FILE
       sleep 10
@@ -2010,7 +2013,7 @@ if postgres_server_detect ; then
   else
     echo "warning: postgresql.conf not found" >> $INSTALL_LOG_FILE
   fi
-	
+
   postgres_test_connection
   if [ -n "$is_postgres_available" ]; then
     echo_success "Database [${POSTGRES_DATABASE}] already exists"
@@ -2043,7 +2046,7 @@ if postgres_server_detect ; then
   if [ "$(whoami)" == "root" ]; then
     #comment out ident line so our connection can be made
     sed -i 's|\(^host[ ]*all[ ]*all[ ]*127.0.0.1/32[ ]*ident\)|#\1|g' $postgres_pghb_conf
-    
+
     postgres_pghb_conf_has_entry=$(cat $postgres_pghb_conf | grep '^host[ ]*all[ ]*all[ ]*127.0.0.1/32[ ]*password')
     if [ -z "$postgres_pghb_conf_has_entry" ]; then
       if [ -n "$postgres_pghb_conf" ]; then
@@ -2118,7 +2121,7 @@ postgres_install_scripts() {
   fi
 }
 
-postgres_running() {  
+postgres_running() {
   POSTGRES_SERVER_RUNNING=''
   if [ -n "$postgres_com" ]; then
     local is_running=`$postgres_com status | grep online`
@@ -2158,7 +2161,7 @@ postgres_configure_ca() {
   # derive CA settings
   export postgres_ssl_ca_key="${postgres_ssl_ca_dir}/ca.key.pem"
   export postgres_ssl_ca_cert="${postgres_ssl_ca_dir}/ca.cert.pem"
-  export postgres_ssl_ca_index="${postgres_ssl_ca_dir}/index"  
+  export postgres_ssl_ca_index="${postgres_ssl_ca_dir}/index"
 }
 
 postgres_configure_ssl() {
@@ -2260,7 +2263,7 @@ function valid_ip() {
 
 ### FUNCTION LIBRARY: tomcat
 
-# tomcat 
+# tomcat
 
 tomcat_clear() {
   TOMCAT_CONF=""
@@ -2356,7 +2359,7 @@ tomcat_detect() {
   java=$JAVA_CMD
   if [[ -z $JAVA_HOME || -z $java ]]; then java_detect; fi
   if [[ -z $JAVA_HOME || -z $java ]]; then return 1; fi
-  if [[ -n "$java" ]]; then    
+  if [[ -n "$java" ]]; then
     local java_bindir=`dirname "$java"`
   fi
 
@@ -2365,7 +2368,7 @@ tomcat_detect() {
     if [ -n "$TOMCAT_HOME" ] && [[ "$TOMCAT_HOME" == /opt/mtwilson* ]]; then
       tomcat_bin="$TOMCAT_HOME/bin/catalina.sh"
       if [ -z "$tomcat" ]; then
-        if [ -n "$java" ]; then    
+        if [ -n "$java" ]; then
           # the tomcat admin tool read timeout is in milliseconds, so 900,000 is 900 seconds
           tomcat="env PATH=$java_bindir:$PATH $tomcat_bin"
         else
@@ -2425,7 +2428,7 @@ tomcat_detect() {
 
 
 # Run this AFTER tomcat_install
-# optional global variables:  
+# optional global variables:
 #   tomcat_username (default value tomcat)
 #   TOMCAT_HOME (default value /usr/share/tomcat)
 # works on Debian, Ubuntu, CentOS, RedHat, SUSE
@@ -2435,9 +2438,9 @@ tomcat_permissions() {
   local chown_locations="$@"
   local username=${MTWILSON_USERNAME:-mtwilson}
   local user_exists=`cat /etc/passwd | grep "^${username}"`
-  if [ -z "$user_exists" ]; then    
+  if [ -z "$user_exists" ]; then
 	echo_failure "User [$username] does not exists"
-	return 1	
+	return 1
   fi
   local file
   for file in $(find "${chown_locations}" 2>/dev/null); do
@@ -2455,7 +2458,7 @@ tomcat_permissions() {
   done
 }
 
-tomcat_running() {  
+tomcat_running() {
   TOMCAT_RUNNING=''
   if [ -z "$TOMCAT_HOME" ]; then
     tomcat_detect 2>&1 > /dev/null
@@ -2594,14 +2597,14 @@ tomcat_create_ssl_cert() {
   IFS=','
   read -a hostArray <<< "${serverName}"
   IFS="$OIFS"
-  
+
   # create common names and sans strings by parsing array
   local cert_cns=""
   local cert_sans=""
   for i in "${hostArray[@]}"; do
     cert_cns+="CN=$i,"
     tmpCN=""
-    if valid_ip "$i"; then 
+    if valid_ip "$i"; then
       tmpCN="ip:$i"
     else
       tmpCN="dns:$i"
@@ -2610,7 +2613,7 @@ tomcat_create_ssl_cert() {
   done
   cert_cns=$(echo $cert_cns | sed -e 's/,$//')
   cert_sans=$(echo $cert_sans | sed -e 's/,$//')
-  
+
   mkdir -p ${TOMCAT_HOME}/ssl
 
   # fix for if old version of mtwilson was saving incorrect password; reverts current password to "changeit"
@@ -2645,18 +2648,18 @@ tomcat_create_ssl_cert() {
       tomcat_restart >/dev/null
       update_property_in_file "mtwilson.tls.keystore.password" "${mtwilsonPropertiesFile}" "$keystorePassword"
     fi
-    
+
     echo "Creating SSL Certificate for ${serverName}..."
     # Delete public insecure certs within keystore.jks and cacerts.jks
     $keytool -delete -alias tomcat -keystore "$keystore" -storepass "$keystorePassword" 2>&1 >/dev/null
 
     # Update keystore.jks
     $keytool -genkeypair -alias tomcat -dname "$cert_cns, OU=Mt Wilson, O=Trusted Data Center, C=US" -ext san="$cert_sans" -keyalg RSA -keysize 2048 -validity 3650 -keystore "$keystore" -keypass "$keystorePassword" -storepass "$keystorePassword"
-    
+
     echo "Restarting Tomcat as a new SSL certificate was generated..."
     tomcat_restart >/dev/null
   fi
-  
+
   has_cert=$($keytool -list -v -alias tomcat -keystore "$keystore" -storepass "$keystorePassword" | grep "^Owner:" | grep "$tmpHost")
   if [ -n "$has_cert" ]; then
     $keytool -export -alias tomcat -file "${TOMCAT_HOME}/ssl/ssl.${tmpHost}.crt" -keystore $keystore -storepass "$keystorePassword"
@@ -2698,7 +2701,7 @@ tomcat_init_manager() {
   TOMCAT_MANAGER_PASS=`read_property_from_file tomcat.admin.password "${config_file}"`
   if [[ -z "$TOMCAT_MANAGER_USER" ]]; then
     tomcat_manager_xml=`grep "username=\"$WEBSERVICE_MANAGER_USERNAME\"" $TOMCAT_HOME/conf/tomcat-users.xml | head -n 1`
-    
+
     OIFS="$IFS"
     IFS=' '
     read -a managerArray <<< "${tomcat_manager_xml}"
@@ -2708,7 +2711,7 @@ tomcat_init_manager() {
       if [[ "$i" == *"username"* ]]; then
         TOMCAT_MANAGER_USER=`echo $i|awk -F'=' '{print $2}'|sed 's/^"\(.*\)"$/\1/'`
       fi
-  
+
       if [[ "$i" == *"password"* ]]; then
         TOMCAT_MANAGER_PASS=`echo $i|awk -F'=' '{print $2}'|sed 's/^"\(.*\)"$/\1/'`
       fi
@@ -2780,7 +2783,7 @@ tomcat_no_additional_webapps_exist_wait() {
 ### FUNCTION LIBRARY: jetty
 
 
-jetty_running() {  
+jetty_running() {
   JETTY_RUNNING=''
   if [ -n "$MTWILSON_HOME" ]; then
     JETTY_PID=`ps gauwxx | grep java | grep -v grep | grep "$MTWILSON_HOME" | awk '{ print $2 }'`
@@ -2885,7 +2888,7 @@ java_ready() {
 # 1 - java command not found
 # 2 - cannot get version number using java command
 # Environment:
-# - java  (path to java binary) you can get it by calling java_detect 
+# - java  (path to java binary) you can get it by calling java_detect
 #    (or if you are calling this from java_detect you set it yourself)
 java_version() {
   if [ -n "$java" ]; then
@@ -2948,13 +2951,13 @@ java_detect() {
           export JAVA_HOME=`dirname "$java_bindir"`
           java=$c
           JAVA_VERSION=`java_version`
-          echo "Found Java: $JAVA_HOME" >> $INSTALL_LOG_FILE 
+          echo "Found Java: $JAVA_HOME" >> $INSTALL_LOG_FILE
           if is_java_version_at_least "$JAVA_VERSION" "${min_version}"; then
             return 0
           fi
         fi
     done
-    
+
     echo "Cannot find JDK"
 
     JAVA_JRE_CANDIDATES=`find "$searchDirectory" -name java 2>/dev/null | grep jre | grep bin/java`
@@ -3066,7 +3069,7 @@ if [ "$(whoami)" == "root" ]; then
 else
   echo_warning "You must be root to install Java through package manager"
 fi
-# Set Java related varibales 
+# Set Java related varibales
 java=$(type -p java | xargs readlink -f)
 JAVA_CMD=$java
 java_bindir=$(dirname $JAVA_CMD)
@@ -3086,7 +3089,7 @@ java_install() {
   fi
   if no_java ${JAVA_REQUIRED_VERSION:-$DEFAULT_JAVA_REQUIRED_VERSION} >> $INSTALL_LOG_FILE; then
     if [[ -z "$JAVA_PACKAGE" || ! -f "$JAVA_PACKAGE" ]]; then
-      echo_failure "Missing Java installer: $JAVA_PACKAGE" | tee -a 
+      echo_failure "Missing Java installer: $JAVA_PACKAGE" | tee -a
       return 1
     fi
     local javafile=$JAVA_PACKAGE
@@ -3100,10 +3103,10 @@ java_install() {
     elif [ -n "$is_gzip" ]; then
       gunzip $javafile 2>&1 >/dev/null  >> $INSTALL_LOG_FILE
       chmod +x $javaname
-      ./$javaname | grep -vE "inflating:|creating:|extracting:|linking:|^Creating" 
+      ./$javaname | grep -vE "inflating:|creating:|extracting:|linking:|^Creating"
     elif [ -n "$is_bin" ]; then
       chmod +x $javafile
-      ./$javafile | grep -vE "inflating:|creating:|extracting:|linking:|^Creating"  
+      ./$javafile | grep -vE "inflating:|creating:|extracting:|linking:|^Creating"
     fi
     # java gets unpacked in current directory but they cleverly
     # named the folder differently than the archive, so search for it:
@@ -3240,7 +3243,7 @@ print_env_summary_report() {
       error=1
     fi
   fi
-  
+
   if using_tomcat; then
     if [ -n "$TOMCAT_HOME" ]; then
       echo "Tomcat: $TOMCAT_CLIENT_VERSION"
@@ -3256,7 +3259,7 @@ mtwilson_running() {
   echo "Checking if mtwilson is running." >> $INSTALL_LOG_FILE
   MTWILSON_API_BASEURL=${MTWILSON_API_BASEURL:-"https://127.0.0.1:8443/mtwilson/v2"}
   MTWILSON_RUNNING=""
-  
+
   MTWILSON_API_BASEURL_V2=`echo $MTWILSON_API_BASEURL | sed 's/\/mtwilson\/v1/\/mtwilson\/v2/'`
   MTWILSON_RUNNING=`wget $MTWILSON_API_BASEURL_V2/version -O - -q --no-check-certificate --no-proxy`
 }
@@ -3390,7 +3393,7 @@ webservice_start() {
       #if [ -f $TOMCAT_HOME/${webservice_application_name}/WEB-INF/web.xml.stop ]; then
         #rename $TOMCAT_HOME/${webservice_application_name}/WEB-INF/web.xml.stop $TOMCAT_HOME/${webservice_application_name}/WEB-INF/web.xml
       #fi
-      #wget -O - -q --no-check-certificate --no-proxy https://tomcat:tomcat@$MTWILSON_SERVER:$DEFAULT_API_PORT/manager/start?path=${WEBSERVICE_DEPLOYED}  
+      #wget -O - -q --no-check-certificate --no-proxy https://tomcat:tomcat@$MTWILSON_SERVER:$DEFAULT_API_PORT/manager/start?path=${WEBSERVICE_DEPLOYED}
     fi
   fi
 }
@@ -3438,7 +3441,7 @@ webservice_stop_report() {
     if [ -n "$WEBSERVICE_RUNNING" ]; then
         inaction_condition WEBSERVICE_RUNNING "Stopping ${webservice_application_name}" "webservice_stop ${webservice_application_name} > /dev/null; webservice_running ${webservice_application_name};"
     fi
-    
+
     if [ -z "$WEBSERVICE_RUNNING" ]; then
       echo_success "${webservice_application_name} is stopped"
     fi
@@ -3474,16 +3477,16 @@ webservice_install() {
         #fi
         echo "Deploying ${webservice_application_name} to Tomcat..."
         cp $WAR_FILE $TOMCAT_HOME/webapps/
-        
+
         # 2014-02-16 rksavinx removed; unnecessary block of code
-        #wget -O - -q --no-check-certificate --no-proxy https://tomcat:tomcat@$MTWILSON_SERVER:$DEFAULT_API_PORT/manager/deploy?path=${webservice_application_name}&war=file:${webservice_war_file} 
+        #wget -O - -q --no-check-certificate --no-proxy https://tomcat:tomcat@$MTWILSON_SERVER:$DEFAULT_API_PORT/manager/deploy?path=${webservice_application_name}&war=file:${webservice_war_file}
         #wait here until the app finishes deploying
         ##webservice_running $webservice_application_name
         ##while [ -z "$WEBSERVICE_RUNNING" ]; do
         ##  webservice_running $webservice_application_name >> $INSTALL_LOG_FILE
         ##  echo -n "." >> $INSTALL_LOG_FILE
         ##  sleep 2
-        ##done      
+        ##done
       fi
     fi
 }
@@ -3544,7 +3547,7 @@ The supported databases are m=MySQL | p=PostgreSQL"
       echo "[m]ysql or [p]ostgresql: "
       DATABASE_CHOICE=
     else
-      if [ "$DATABASE_CHOICE" = 'm' ]; then 
+      if [ "$DATABASE_CHOICE" = 'm' ]; then
         export DATABASE_VENDOR="mysql"
       else
         export DATABASE_VENDOR="postgres"
@@ -3566,7 +3569,7 @@ The supported server is t=Tomcat"
       echo "[t]omcat: "
       WEBSERVER_CHOICE=
     else
-      if [ "$WEBSERVER_CHOICE" = 't' ]; then 
+      if [ "$WEBSERVER_CHOICE" = 't' ]; then
         export WEBSERVICE_VENDOR="tomcat"
       fi
       break
@@ -3608,7 +3611,7 @@ postgres_write_connection_properties() {
     update_property_in_file ${prefix}.password "${config_file}" "${POSTGRES_PASSWORD}"
     update_property_in_file ${prefix}.schema "${config_file}" "${POSTGRES_DATABASE}"
     update_property_in_file ${prefix}.driver "${config_file}" "org.postgresql.Driver"
-    
+
     # Return the file to encrypted state, if it was before
     if [ encrypted == "true" ]; then
       encrypt_file "$config_file" "$MTWILSON_PASSWORD"
@@ -3721,7 +3724,7 @@ load_conf() {
   local mp_props_path="/etc/intel/cloudsecurity/mtwilson-portal.properties"
   local hp_props_path="/etc/intel/cloudsecurity/clientfiles/hisprovisioner.properties"
   local ta_props_path="/etc/intel/cloudsecurity/trustagent.properties"
-  
+
   if [ -n "$DEFALT_ENV_LOADED" ]; then return; fi
 
   # mtwilson.properties file
@@ -3771,7 +3774,7 @@ load_conf() {
     fi
     echo_success "Done"
   fi
-  
+
   # attestation-service.properties
   if [ -f "$as_props_path" ]; then
     echo -n "Reading properties from "
@@ -3842,7 +3845,7 @@ load_conf() {
     fi
     echo_success "Done"
   fi
-    
+
   # hisprovisioner.properties
   if [ -f "$hp_props_path" ]; then
     echo -n "Reading properties from "
@@ -3921,7 +3924,7 @@ load_defaults() {
   export DEFAULT_TRUSTAGENT_KEYSTORE_PASS=""
   export DEFAULT_MTWILSON_TAG_API_USERNAME="tagservice"
   export DEFAULT_MTWILSON_TAG_API_PASSWORD=$(generate_password 16)
-  
+
   export MTWILSON_SERVER=${MTWILSON_SERVER:-${CONF_MTWILSON_SERVER:-$DEFAULT_MTWILSON_SERVER}}
   export DATABASE_HOSTNAME=${DATABASE_HOSTNAME:-${CONF_DATABASE_HOSTNAME:-$DEFAULT_DATABASE_HOSTNAME}}
   export DATABASE_SCHEMA=${DATABASE_SCHEMA:-${CONF_DATABASE_SCHEMA:-$DEFAULT_DATABASE_SCHEMA}}
@@ -3973,14 +3976,14 @@ change_db_pass() {
   psql=`which psql 2>/dev/null`
   mtwilson=`which mtwilson 2>/dev/null`
   cryptopass="$MTWILSON_PASSWORD"
-  
+
   #load_default_env 1>/dev/null
-  
+
   # Do not allow a blank password to be specified
   prompt_with_default_password DATABASE_PASSWORD_NEW "New database password: " "$DATABASE_PASSWORD_NEW"
   new_db_pass="$DATABASE_PASSWORD_NEW"
   sed_escaped_value=$(sed_escape "$new_db_pass")
-  
+
   # Check for encryption, add to array if encrypted
   encrypted_files=()
   count=0
@@ -3990,7 +3993,7 @@ change_db_pass() {
     fi
     let count++
   done
-  
+
   local decryption_error=false
   for i in ${encrypted_files[@]}; do
     decrypt_file "$i" "$cryptopass"
@@ -4002,10 +4005,10 @@ change_db_pass() {
     echo_error "Cannot decrypt configuration files; please set MTWILSON_PASSWORD"
     return 1
   fi
-  
+
   load_conf
   load_defaults
-  
+
   # Test DB connection and change password
   if using_mysql; then #MYSQL
     echo_success "using mysql"
@@ -4045,7 +4048,7 @@ change_db_pass() {
 
   # 20140427 commented out the update to mtwilson.env because
   # running system should not depend on it or update it in any way;
-  # the mtwilson.env is for install time only and is assumed to be 
+  # the mtwilson.env is for install time only and is assumed to be
   # deleted after install.
   ## Update password in mtwilson.env file
   #if [ -f /root/mtwilson.env ]; then
@@ -4076,7 +4079,7 @@ change_db_pass() {
 function erase_data() {
   mysql=`which mysql 2>/dev/null`
   psql=`which psql 2>/dev/null`
-  
+
   #encrypted_files=()
   #count=0
   #for i in `ls -1 /etc/intel/cloudsecurity/*.properties`; do
@@ -4089,7 +4092,7 @@ function erase_data() {
   #for i in ${encrypted_files[@]}; do
   #  decrypt_file "$i" "$MTWILSON_PASSWORD"
   #done
-  
+
   arr=(mw_measurement_xml mw_tag_certificate mw_tag_certificate_request mw_tag_selection_kvattribute mw_tag_selection mw_tag_kvattribute mw_host_tpm_password mw_asset_tag_certificate mw_audit_log_entry mw_module_manifest_log mw_ta_log mw_saml_assertion mw_host_specific_manifest mw_hosts mw_mle_source mw_module_manifest mw_pcr_manifest mw_mle mw_os mw_oem mw_tls_policy)
 
   # Test DB connection and change password
@@ -4101,7 +4104,7 @@ function erase_data() {
     if [ $? -ne 0 ]; then return 1; fi
     for table in ${arr[*]}; do
       $mysql -u "$DATABASE_USERNAME" -p"$DATABASE_PASSWORD" -D"$DATABASE_SCHEMA" -e "DELETE from $table;"
-    done 
+    done
   elif using_postgres; then #POSTGRES
     echo_success "using postgres"
     postgres_detect
@@ -4201,11 +4204,11 @@ shiro_localhost_integration() {
   local iplist;
   local finalIps;
   iplist="127.0.0.1"
-  
+
   OIFS=$IFS
   IFS=',' read -ra newIps <<< "$iplist"
   IFS=$OIFS
-  
+
   iniHostRealmPropertyExists=$(cat "${shiroIniPath}" | grep '^iniHostRealm=' 2>/dev/null)
   if [ -z "${iniHostRealmPropertyExists}" ]; then
     sed -i 's|\(^securityManager.realms*\)|iniHostRealm=\n\1|' "${shiroIniPath}"
@@ -4222,11 +4225,11 @@ shiro_localhost_integration() {
   if [ -z "${iniHostRealmCredentialsMatcherPropertyExists}" ]; then
     sed -i 's|\(^securityManager.realms*\)|iniHostRealm.credentialsMatcher=\n\1|' "${shiroIniPath}"
   fi
-  
+
   update_property_in_file "iniHostRealm" "${shiroIniPath}" 'com.intel.mtwilson.shiro.authc.host.IniHostRealm'
   update_property_in_file "hostMatcher" "${shiroIniPath}" 'com.intel.mtwilson.shiro.authc.host.HostCredentialsMatcher'
   update_property_in_file "iniHostRealm.credentialsMatcher" "${shiroIniPath}" '$hostMatcher'
-  
+
   #iniHostRealm.allow
   hostAllow=$(read_property_from_file iniHostRealm.allow ${shiroIniPath})
   finalIps="$hostAllow"
@@ -4243,7 +4246,7 @@ shiro_localhost_integration() {
     fi
   done
   update_property_in_file "iniHostRealm.allow" "${shiroIniPath}" "$finalIps";
-  
+
   #securityManager.realms
   securityManagerPropertyHasIniHostRealm=$(cat "${shiroIniPath}" | grep '^securityManager.realms' 2>/dev/null | grep '$iniHostRealm' 2>/dev/null)
   if [ -z "${securityManagerPropertyHasIniHostRealm}" ]; then
